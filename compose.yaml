@@ -1,8 +1,0 @@
-services:
-  slack_bot_service:
-    build:
-      context: .
-    env_file: config.env
-      
-
-
