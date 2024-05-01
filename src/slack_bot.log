@@ -895,3 +895,180 @@ Traceback (most recent call last):
     raise e.SlackApiError(message=msg, response=self)
 slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
 The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:34:34,610 - INFO - A new session has been established (session id: b25c3c49-5475-4cd0-ad84-f25d7cac6313)[0m
+[37m2024-05-01 03:34:34,610 - INFO - ⚡️ Bolt app is running![0m
+[37m2024-05-01 03:34:34,672 - INFO - Starting to receive messages from a new connection (session id: b25c3c49-5475-4cd0-ad84-f25d7cac6313)[0m
+[37m2024-05-01 03:34:40,888 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714534480.326279', 'client_msg_id': 'baa48fad-ca10-4113-b9a9-c992db2a5c5b', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714534480.326279', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:34:41,267 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714534480.326279', 'client_msg_id': 'baa48fad-ca10-4113-b9a9-c992db2a5c5b', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714534480.326279', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:34:41,267 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714534480.326279', 'client_msg_id': 'baa48fad-ca10-4113-b9a9-c992db2a5c5b', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714534480.326279', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:34:41,267 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:34:42,638 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:34:42,640 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:34:42,967 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:49:38,429 - INFO - A new session has been established (session id: 16877541-aec1-4917-8b6c-fa1ab99b360e)[0m
+[37m2024-05-01 03:49:38,429 - INFO - ⚡️ Bolt app is running![0m
+[37m2024-05-01 03:49:38,494 - INFO - Starting to receive messages from a new connection (session id: 16877541-aec1-4917-8b6c-fa1ab99b360e)[0m
+[37m2024-05-01 03:50:22,082 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535421.840669', 'client_msg_id': '755929b9-ba58-4c8b-bc03-133bbe6aca78', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535421.840669', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:50:22,637 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535421.840669', 'client_msg_id': '755929b9-ba58-4c8b-bc03-133bbe6aca78', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535421.840669', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:50:22,638 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535421.840669', 'client_msg_id': '755929b9-ba58-4c8b-bc03-133bbe6aca78', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535421.840669', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:50:22,638 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:50:23,950 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:50:23,952 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:50:24,257 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:52:46,571 - INFO - A new session has been established (session id: 4963fbd2-fc4d-4979-97df-28f8abc59f59)[0m
+[37m2024-05-01 03:52:46,572 - INFO - ⚡️ Bolt app is running![0m
+[37m2024-05-01 03:52:46,576 - INFO - Starting to receive messages from a new connection (session id: 4963fbd2-fc4d-4979-97df-28f8abc59f59)[0m
+[37m2024-05-01 03:52:49,189 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535568.867279', 'client_msg_id': '0f4a8e07-74cd-4fd9-9f37-4f3f0af079a5', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535568.867279', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:52:49,545 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535568.867279', 'client_msg_id': '0f4a8e07-74cd-4fd9-9f37-4f3f0af079a5', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535568.867279', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:52:49,545 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535568.867279', 'client_msg_id': '0f4a8e07-74cd-4fd9-9f37-4f3f0af079a5', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535568.867279', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:52:49,545 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:52:50,588 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:52:50,590 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:52:50,916 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:53:04,250 - INFO - A new session has been established (session id: fd0d304c-4c1c-43d5-b82b-daed191c8a8b)[0m
+[37m2024-05-01 03:53:04,250 - INFO - ⚡️ Bolt app is running![0m
+[37m2024-05-01 03:53:04,342 - INFO - Starting to receive messages from a new connection (session id: fd0d304c-4c1c-43d5-b82b-daed191c8a8b)[0m
+[37m2024-05-01 03:53:06,350 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535585.997619', 'client_msg_id': '2327283d-e6d8-4ed1-bcd9-70493460f4c1', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535585.997619', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:53:06,812 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535585.997619', 'client_msg_id': '2327283d-e6d8-4ed1-bcd9-70493460f4c1', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535585.997619', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:53:06,812 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535585.997619', 'client_msg_id': '2327283d-e6d8-4ed1-bcd9-70493460f4c1', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535585.997619', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:53:06,812 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:53:07,891 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:53:07,894 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:53:08,190 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:54:06,833 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535583.709849', 'client_msg_id': '5ee465fe-963e-41a8-a91c-927c2cdcf83c', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535583.709849', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:54:07,474 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535583.709849', 'client_msg_id': '5ee465fe-963e-41a8-a91c-927c2cdcf83c', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535583.709849', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:54:07,474 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535583.709849', 'client_msg_id': '5ee465fe-963e-41a8-a91c-927c2cdcf83c', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535583.709849', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:54:07,474 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:54:09,256 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:54:09,259 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:54:09,582 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
+[37m2024-05-01 03:54:52,487 - INFO - A new session has been established (session id: bd71cbb1-37aa-4bba-aad7-39e83bfe7560)[0m
+[37m2024-05-01 03:54:52,487 - INFO - ⚡️ Bolt app is running![0m
+[37m2024-05-01 03:54:52,528 - INFO - Starting to receive messages from a new connection (session id: bd71cbb1-37aa-4bba-aad7-39e83bfe7560)[0m
+[37m2024-05-01 03:54:54,896 - INFO - DM event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535694.609509', 'client_msg_id': 'eead2ac9-3939-4e66-b23b-975445d7e69d', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535694.609509', 'channel_type': 'im'}[0m
+[32m2024-05-01 03:54:55,377 - HANDLED_MESSAGE - Handling DM: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535694.609509', 'client_msg_id': 'eead2ac9-3939-4e66-b23b-975445d7e69d', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535694.609509', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:54:55,377 - INFO - handle_audio_and_respond called with event: {'user': 'U06U18AB3LM', 'type': 'message', 'ts': '1714535694.609509', 'client_msg_id': 'eead2ac9-3939-4e66-b23b-975445d7e69d', 'text': 'hi', 'team': 'T01RA4X4X35', 'blocks': [{'type': 'rich_text', 'block_id': 'a8bcU', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hi'}]}]}], 'channel': 'D071EL0SPK4', 'event_ts': '1714535694.609509', 'channel_type': 'im'}[0m
+[37m2024-05-01 03:54:55,377 - INFO - Conversation history: [{'role': 'user', 'content': 'hi'}][0m
+[37m2024-05-01 03:54:58,276 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"[0m
+[37m2024-05-01 03:54:58,279 - INFO - GPT response: ChatCompletionMessage(content='Hello! How can I assist you today?', role='assistant', function_call=None, tool_calls=None)[0m
+[31m2024-05-01 03:54:58,602 - ERROR - Failed to run listener function (error: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'})[0m
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/thread_runner.py", line 120, in run_ack_function_asynchronously
+    listener.run_ack_function(request=request, response=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_bolt/listener/custom_listener.py", line 50, in run_ack_function
+    return self.ack_function(
+  File "/root/langflow_slackbot/src/multimodal_gpt_slack.py", line 194, in handle_message_events
+    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/client.py", line 2686, in chat_update
+    return self.api_call("chat.update", json=kwargs)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 155, in api_call
+    return self._sync_send(api_url=api_url, req_args=req_args)
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 186, in _sync_send
+    return self._urllib_api_call(
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/base_client.py", line 317, in _urllib_api_call
+    ).validate()
+  File "/root/miniconda3/envs/slack/lib/python3.10/site-packages/slack_sdk/web/slack_response.py", line 199, in validate
+    raise e.SlackApiError(message=msg, response=self)
+slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/chat.update)
+The server responded with: {'ok': False, 'error': 'cant_update_message'}
