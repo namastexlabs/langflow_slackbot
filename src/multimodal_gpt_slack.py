@@ -151,7 +151,7 @@ else:
     print('SPEECH_TO_TEXT: Disabled')
 
 
-def handle_audio_and_respond(client, event, reply_ts):
+def handle_audio_and_respond(client, event):
     logging.info(f"handle_audio_and_respond called with event: {event}")
     if "files" in event:
         for file in event["files"]:
@@ -171,11 +171,11 @@ def handle_audio_and_respond(client, event, reply_ts):
                 if "thread_ts" in event:
                     client.chat_postMessage(channel=event["channel"], thread_ts=event["thread_ts"], text=response)
                 else:
-                    client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+                    client.chat_postMessage(channel=event["channel"], text=response)
                 
-                logging.log(BOT_RESPONSE_LEVEL, f'Audio response updated: {response}')
+                logging.log(BOT_RESPONSE_LEVEL, f'Audio response sent: {response}')
                 return True  # Indicates that an audio file was processed
-    return False  # No audio file processed# No audio file processedNo audio file processed
+    return False  # No audio file processed
 
 @app.event("message")
 def handle_message_events(client, body):
@@ -183,40 +183,49 @@ def handle_message_events(client, body):
     if event.get('channel_type') == 'im':
         if event.get('subtype') == 'file_share':
             logging.info(f"Received file share event in DM: {event}")
-            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="hourglass_flowing_sand")
-            handle_audio_and_respond(client, event, event["ts"])
+            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
+            handle_audio_and_respond(client, event)
+            client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
         else:
             logging.info(f"DM event: {event}")
-            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="hourglass_flowing_sand")
+            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
             logging.log(HANDLED_MESSAGE_LEVEL, f'Handling DM: {event}')
-            if not handle_audio_and_respond(client, event, event["ts"]):
+            if not handle_audio_and_respond(client, event):
                 response = process_conversation(client, event)
-                client.chat_update(channel=event["channel"], ts=event["ts"], text=response)
+                message_kwargs = {
+                    "channel": event["channel"],
+                    "text": response
+                }
+                if "thread_ts" in event:
+                    message_kwargs["thread_ts"] = event["thread_ts"]
+                client.chat_postMessage(**message_kwargs)
                 logging.log(BOT_RESPONSE_LEVEL, f'DM reply: {response}')
+            client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
     elif "thread_ts" in event and event["parent_user_id"] == client.auth_test()["user_id"]:
-        client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="hourglass_flowing_sand")
+        client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
         logging.log(HANDLED_MESSAGE_LEVEL, f'Handling thread reply: {event}')
-        if not handle_audio_and_respond(client, event, event["ts"]):
+        if not handle_audio_and_respond(client, event):
             response = process_conversation(client, {"text": event["text"], "channel": event["channel"], "ts": event["thread_ts"]})
-            client.chat_update(channel=event["channel"], ts=reply["ts"], text=response)
+            client.chat_postMessage(channel=event["channel"], thread_ts=event["thread_ts"], text=response)
             logging.log(BOT_RESPONSE_LEVEL, f'Thread reply: {response}')
+        client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
     elif event["channel_type"] == "channel":
         if "lang" in event["text"].lower():
-            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="hourglass_flowing_sand")
+            client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
             logging.log(HANDLED_MESSAGE_LEVEL, f'Handling trigger word "lang": {event}')
-            if not handle_audio_and_respond(client, event, event["ts"]):
+            if not handle_audio_and_respond(client, event):
                 response = process_conversation(client, event)
-                client.chat_update(channel=event["channel"], ts=reply["ts"], text=response)
+                client.chat_postMessage(channel=event["channel"], thread_ts=event["ts"], text=response)
                 logging.log(BOT_RESPONSE_LEVEL, f'Trigger word reply: {response}')
+            client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
         else:
             # Regular channel message, not intended for the bot
             logging.log(UNHANDLED_MESSAGE_LEVEL, f"Message Type: {event.get('channel_type')}, User: {event.get('user')}, Message: {event.get('text')}")
-
 @app.event("app_mention")
 def handle_app_mention_events(client, body):
     event = body.get('event', {})
     logging.log(HANDLED_MESSAGE_LEVEL, f'App mentioned: {event}')
-    client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="hourglass_flowing_sand")
+    client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
 
     # Check if there are files in the mention
     if "files" in event:
@@ -234,17 +243,18 @@ def handle_app_mention_events(client, body):
                     
                 except Exception as e:
                     response = f'[ERROR] Problem converting from speech to text:\n {e}'
-                client.chat_update(channel=event["channel"], ts=reply["ts"], text=response)
+                client.chat_postMessage(channel=event["channel"], thread_ts=event["ts"], text=response)
                 logging.log(BOT_RESPONSE_LEVEL, f'Mention reply with file: {response}')
+                client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
                 return  # Ensure we exit after handling the file
     # If no files, process the text mention
     response = process_conversation(client, event)
-    client.chat_update(channel=event["channel"], ts=reply["ts"], text=response)
+    client.chat_postMessage(channel=event["channel"], thread_ts=event["ts"], text=response)
     logging.log(BOT_RESPONSE_LEVEL, f'Mention reply: {response}')
+    client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
 #============================================#
 def process_conversation(client, message):
     conversation_history = get_conversation_history(client, message)
-    logging.info(f'Conversation history: {conversation_history}')
     result = get_gpt_response(ai_client, GPT_MODEL, SYSTEM_PROMPT, conversation_history, tools)
     logging.info(f'GPT response: {result}')
     if result.content:
