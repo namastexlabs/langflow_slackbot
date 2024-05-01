@@ -234,6 +234,7 @@ def handle_message_events(client, body):
         else:
             # Regular channel message, not intended for the bot
             logging.log(UNHANDLED_MESSAGE_LEVEL, f"Message Type: {event.get('channel_type')}, User: {event.get('user')}, Message: {event.get('text')}")
+            
 @app.event("app_mention")
 def handle_app_mention_events(client, body):
     event = body.get('event', {})
