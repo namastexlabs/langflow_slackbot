@@ -51,6 +51,7 @@ logging.basicConfig(
 SLACK_SOCKET_TOKEN = os.getenv("SLACK_SOCKET_TOKEN")
 SLACK_BOT_USER_TOKEN = os.getenv("SLACK_BOT_USER_TOKEN")
 SLACK_SIGNING_SECRET=os.environ.get("SLACK_SIGNING_SECRET")
+TRIGGER_WORD = os.getenv("TRIGGER_WORD", "lang")  # Default to "lang" if not specified
 
 OPENAI_KEY = os.getenv("OPENAI_KEY")
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
@@ -184,14 +185,27 @@ def handle_message_events(client, body):
         if event.get('subtype') == 'file_share':
             logging.info(f"Received file share event in DM: {event}")
             client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
-            handle_audio_and_respond(client, event)
-            client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
+            
+            if "files" in event:
+                for file in event["files"]:
+                    if file["filetype"] in ["png", "jpg", "jpeg", "gif", "webp", "mp3", "wav", "ogg", "flac", "webm"]:
+                        try:
+                            response = process_conversation(client, event)
+                            logging.info(f"File processed and response generated: {response}")
+                        except Exception as e:
+                            response = f'[ERROR] Problem processing file:\n {e}'
+                            logging.error(response)
+                        
+                        client.chat_postMessage(channel=event["channel"], text=response)
+                        logging.log(BOT_RESPONSE_LEVEL, f'File response sent: {response}')
+                        client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
+                        return  # Exit after processing the file
         else:
             logging.info(f"DM event: {event}")
             client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
             logging.log(HANDLED_MESSAGE_LEVEL, f'Handling DM: {event}')
-            if not handle_audio_and_respond(client, event):
-                response = process_conversation(client, event)
+            response = process_conversation(client, event)
+            if response:  # This checks if response is not None or not an empty string
                 message_kwargs = {
                     "channel": event["channel"],
                     "text": response
@@ -199,7 +213,7 @@ def handle_message_events(client, body):
                 if "thread_ts" in event:
                     message_kwargs["thread_ts"] = event["thread_ts"]
                 client.chat_postMessage(**message_kwargs)
-                logging.log(BOT_RESPONSE_LEVEL, f'DM reply: {response}')
+            logging.log(BOT_RESPONSE_LEVEL, f'DM reply: {response}')
             client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
     elif "thread_ts" in event and event["parent_user_id"] == client.auth_test()["user_id"]:
         client.reactions_add(channel=event["channel"], timestamp=event["ts"], name="sparkles")
@@ -215,7 +229,6 @@ def handle_message_events(client, body):
             logging.log(HANDLED_MESSAGE_LEVEL, f'Handling trigger word "lang": {event}')
             if not handle_audio_and_respond(client, event):
                 response = process_conversation(client, event)
-                client.chat_postMessage(channel=event["channel"], thread_ts=event["ts"], text=response)
                 logging.log(BOT_RESPONSE_LEVEL, f'Trigger word reply: {response}')
             client.reactions_remove(channel=event["channel"], timestamp=event["ts"], name="sparkles")
         else:
@@ -276,7 +289,7 @@ def process_conversation(client, message):
                 with open(image_filepath, "wb") as f:
                     f.write(image_content.content)
                 client.files_upload_v2(channel = message["channel"], thread_ts = message["ts"], file = image_filepath, title = description)
-                response = f'[SUCCESS] Image has been generated successfully'
+                response = None
                 clean_up_file(image_filepath)
             except Exception as e:
                 response = f'[ERROR] Problem generating image using DALL-E:\n {e}'
@@ -285,24 +298,10 @@ def process_conversation(client, message):
             try:
                 generated_file = generate_tts(ai_client, TEMP_FILES_FOLDER, TTS_MODEL, TTS_VOICE, input_text)
                 client.files_upload_v2(channel = message["channel"], thread_ts = message["ts"], file = generated_file, title = "Text To Speech")
-                response = f'[SUCCESS] Your text has been converted to speech'
+                response = None
                 clean_up_file(generated_file)
             except Exception as e:             
                 response = f'[ERROR] Problem converting from text to speech:\n {e}'
-        elif function_name == "generate_stt":
-            if "files" in message:
-                try:
-                    file_path = save_uploaded_file(message["files"][0])
-                    response = f'[SUCCESS] {generate_stt(ai_client, file_path, STT_MODEL)}'
-                    clean_up_file(file_path)
-                except Exception as e:
-                    response = f'[ERROR] Problem converting from speech to text:\n {e}'
-            else:
-                response = f'[ERROR] No attached audio found in your message'
-        else:
-            response = f"[ERROR] Invalid function"
-    else:
-        response = f"[ERROR] Invalid response from OpenAI"
     return response
 
 def get_conversation_history(client, message):
