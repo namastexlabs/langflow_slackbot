@@ -1,4 +1,6 @@
 .venv
 .env
 .env_azure
+*__pycache__/
+slack_bot.log
 
