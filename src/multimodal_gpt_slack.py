@@ -13,7 +13,7 @@ load_dotenv()  # This will load all the environment variables from a .env file l
 import logging
 from colorlog import ColoredFormatter
 
-# Define custom log levels
+# Define custom log levels 
 HANDLED_MESSAGE_LEVEL = 25
 UNHANDLED_MESSAGE_LEVEL = 35
 BOT_RESPONSE_LEVEL = 45
