@@ -1,3 +1,4 @@
+# slack_ai_assistant/openai_utils.py
 import base64
 import random
 import time
